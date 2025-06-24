@@ -39,10 +39,9 @@ namespace GravitySim
         {
             float distanceSqr = Vector3.DistanceSquared(matter1.position, matter2.position);
             float force = 0;
-            float massDivisor = 1;
             if (distanceSqr > 1)
             {
-                force = ((matter1.mass / massDivisor) * (matter2.mass / massDivisor)) / distanceSqr;
+                force = (matter1.mass * matter2.mass) / distanceSqr;
             }
              
             return force;

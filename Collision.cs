@@ -10,7 +10,6 @@ namespace GravitySim
 {
     public static class Collision
     {
-
         public static void CollisionMath(Matter matter1, Matter matter2, out Vector3 newVelocity1, out Vector3 newVelocity2)
         {
             Vector3 collisionPoint = matter2.position - matter1.position;
@@ -22,7 +21,6 @@ namespace GravitySim
             newVelocity2 = matter2.velocity + (((1 + GameRoot.collisionRebound) * matter1.mass) / massTotal) * vRel * normal;
 
         }
-
 
         public static void ColllisionProcess(Matter matter)
         {

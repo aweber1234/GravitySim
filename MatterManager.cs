@@ -9,14 +9,9 @@ namespace GravitySim
 {
     public class MatterManager
     {
-        List<Matter> matterObjects = [];
-        Dictionary<VectorInt, List<Matter>> matterObjectsSpace = [];
-        Dictionary<Matter, Matter> collisionHash = [];
-
-        public static int ComputedSpaceWidth = 100;
-        public static int ComputedSpaceHeight = 50;
-
-
+        public List<Matter> matterObjects = [];
+        public Dictionary<VectorInt, List<Matter>> matterObjectsSpace = [];      
+       
         public List<Matter> GetNearObjects(Vector3 position, int radius)
         {
             List<Matter> nearObjects = [];
@@ -34,24 +29,6 @@ namespace GravitySim
                 }
             }
             return nearObjects;
-        }
-
-        /// <summary>
-        /// Converts world position to manager array indexes. 
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        /// <param name="isWithinComputedSpace"></param>
-        public void GetIndexes(Vector3 position, out int X, out int Y, out bool isWithinComputedSpace)
-        {
-            X = (int)position.X + ComputedSpaceWidth / 2;
-            Y = (int)position.Y + ComputedSpaceHeight / 2;
-            if (X >= 0 && X < ComputedSpaceWidth && Y >= 0 && Y < ComputedSpaceHeight)
-            {
-                isWithinComputedSpace = true;
-            }
-            else { isWithinComputedSpace = false; }
         }
 
         public void Add(Matter matter)
@@ -88,12 +65,8 @@ namespace GravitySim
 
         public void UpdateMatter()
         {
-
-
             foreach (Matter matter in matterObjects)
             {
-
-
                 //updates position
                 Vector3 oldPosition = matter.position;
 
@@ -119,7 +92,6 @@ namespace GravitySim
             }
 
             Gravity.forceHash.Clear();
-
         }
 
 

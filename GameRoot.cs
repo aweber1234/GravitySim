@@ -8,8 +8,8 @@ namespace GravitySim
         public static MatterManager entityManager = new MatterManager();
         public static Random rand = new Random();
         public static bool hasStartedSim = false;
-        public static bool collisionOn = false;
-        public static float collisionRebound = 0.9f;
+        public static bool collisionOn = true;
+        public static float collisionRebound = 0.8f;
 
         public static void Initialize()
         {

@@ -9,12 +9,29 @@ namespace GravitySim
     public static class Control
     {
         private static ConsoleKey keyPressed;
-
+        private static int moveSpeed = 5;
 
         public static void DrawControlStatus()
         {
             DrawConsole.WriteTextLine($"Collision Enabled: {GameRoot.collisionOn}", 3, 2);
             DrawConsole.WriteTextLine($"Collision Rebound: {GameRoot.collisionRebound}", 3, 3);
+        }
+
+
+        public static void ResetGame()
+        {
+            if (keyPressed == ConsoleKey.R)
+            {
+                Gravity.forceHash.Clear();
+                GameRoot.entityManager.matterObjects.Clear();
+                GameRoot.entityManager.matterObjectsSpace.Clear();
+                GameRoot.collisionRebound = 0.8f;
+                GameRoot.collisionOn = true;
+                DrawConsole.cameraPosition = new VectorInt(0, 0, 0);
+                DrawConsole.drawArray = new string(' ', DrawConsole.drawWidth * DrawConsole.drawHeight).ToCharArray();
+                GameRoot.hasStartedSim = false;               
+
+            }
         }
 
 
@@ -27,7 +44,7 @@ namespace GravitySim
                         GameRoot.rand.Next(DrawConsole.cameraPosition.X, DrawConsole.cameraPosition.X + DrawConsole.drawWidth),
                         GameRoot.rand.Next(DrawConsole.cameraPosition.Y, DrawConsole.cameraPosition.Y + DrawConsole.drawHeight), 0);
 
-                GameRoot.entityManager.Add(new Matter(0.1f, position, new Vector3(0, 0, 0)));
+                GameRoot.entityManager.Add(new Matter(0.05f, position, new Vector3(0, 0, 0)));
 
             }
         }
@@ -56,19 +73,19 @@ namespace GravitySim
         {
             if (keyPressed == ConsoleKey.W)
             {
-                DrawConsole.cameraPosition.Y -= 2;
+                DrawConsole.cameraPosition.Y -= moveSpeed;
             }
             else if (keyPressed == ConsoleKey.S)
             {
-                DrawConsole.cameraPosition.Y += 2;
+                DrawConsole.cameraPosition.Y += moveSpeed;
             }
             else if (keyPressed == ConsoleKey.D)
             {
-                DrawConsole.cameraPosition.X += 2;
+                DrawConsole.cameraPosition.X += moveSpeed;
             }
             else if (keyPressed == ConsoleKey.A)
             {
-                DrawConsole.cameraPosition.X -= 2;
+                DrawConsole.cameraPosition.X -= moveSpeed;
             }
         }
 
@@ -85,6 +102,7 @@ namespace GravitySim
                 if (keyPressed == ConsoleKey.Escape)
                     Loop._isRunning = false;
 
+                ResetGame();
                 ModifyCollision();
                 ToggleCollision();
                 AddMatter();
