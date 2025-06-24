@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Security.Cryptography;
 using Microsoft.VisualBasic;
@@ -123,10 +124,18 @@ namespace GravitySim
 
         public void DrawMatter()
         {
-            foreach (var matter in matterObjects)
+            for (int x = DrawSpace.cameraPosition.X; x < DrawSpace.cameraPosition.X + DrawSpace.drawWidth; x++)
             {
-                DrawSpace.DrawCharacter((int)matter.position.X, (int)matter.position.Y, (char)(matterObjectsSpace[new VectorInt(matter.position)].Count + '0'));
+                for (int y = DrawSpace.cameraPosition.Y; y < DrawSpace.cameraPosition.Y + DrawSpace.drawHeight; y++)
+                {
+                    if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter> items) && items.Any())
+                    {
+                        DrawSpace.DrawCharacter(x, y, (char)(items.Count + '0'));
+                    }
+                }
             }
+            
+
         }
 
     }

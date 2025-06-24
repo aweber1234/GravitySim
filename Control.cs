@@ -14,7 +14,10 @@ namespace GravitySim
         {
             if (keyPressed == ConsoleKey.NumPad1)
             {
-                Vector3 position = new Vector3(GameRoot.rand.Next(1, DrawSpace.drawWidth), GameRoot.rand.Next(1, DrawSpace.drawHeight), 0);
+                Vector3 position = 
+                    new Vector3(
+                        GameRoot.rand.Next(DrawSpace.cameraPosition.X, DrawSpace.cameraPosition.X + DrawSpace.drawWidth), 
+                        GameRoot.rand.Next(DrawSpace.cameraPosition.Y, DrawSpace.cameraPosition.Y + DrawSpace.drawHeight), 0);
 
                 GameRoot.entityManager.Add(new Matter(0.1f, position, new Vector3(0, 0, 0)));
 
@@ -25,19 +28,19 @@ namespace GravitySim
         {
             if (keyPressed == ConsoleKey.W)
             {
-                DrawSpace.cameraPosition.Y--;
+                DrawSpace.cameraPosition.Y -= 2;
             }
-            if (keyPressed == ConsoleKey.S)
+            else if (keyPressed == ConsoleKey.S)
             {
-                DrawSpace.cameraPosition.Y++;
+                DrawSpace.cameraPosition.Y += 2;
             }
-            if (keyPressed == ConsoleKey.D)
+            else if (keyPressed == ConsoleKey.D)
             {
-                DrawSpace.cameraPosition.X++;
+                DrawSpace.cameraPosition.X += 2;
             }
-            if (keyPressed == ConsoleKey.A)
+            else if (keyPressed == ConsoleKey.A)
             {
-                DrawSpace.cameraPosition.X--;
+                DrawSpace.cameraPosition.X -= 2;
             }
         }
         
