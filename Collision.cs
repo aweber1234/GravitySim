@@ -15,10 +15,10 @@ namespace GravitySim
             Vector3 collisionPoint = matter2.position - matter1.position;
             Vector3 normal = Vector3.Normalize(collisionPoint);
             float vRel = Vector3.Dot(matter1.velocity - matter2.velocity, normal);
-            float massTotal = matter1.mass + matter2.mass;
+            double massTotal = GameRoot.matterMass + GameRoot.matterMass;
 
-            newVelocity1 = matter1.velocity - (((1 + GameRoot.collisionRebound) * matter2.mass) / massTotal) * vRel * normal;
-            newVelocity2 = matter2.velocity + (((1 + GameRoot.collisionRebound) * matter1.mass) / massTotal) * vRel * normal;
+            newVelocity1 = matter1.velocity - (float)(((1 + GameRoot.collisionRebound) * GameRoot.matterMass) / massTotal) * vRel * normal;
+            newVelocity2 = matter2.velocity + (float)(((1 + GameRoot.collisionRebound) * GameRoot.matterMass) / massTotal) * vRel * normal;
 
         }
 

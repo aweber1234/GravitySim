@@ -43,25 +43,7 @@ namespace GravitySim
         }
 
 
-        private void UpdateGravity(Matter matter1)
-        {
-            foreach (Matter matter2 in matterObjects)
-            {
-                if (!Gravity.AlreadyApplied(matter1, matter2, out _) && matter1 != matter2)
-                {
-                    float force = Gravity.DetermineGravityForce(matter1, matter2);
-                    if (force > 0)
-                    {
-                        matter1.velocity += Gravity.GetVectorFromForce(matter1, matter2.position, force);
-                        matter2.velocity += Gravity.GetVectorFromForce(matter2, matter1.position, force);
-                        Gravity.forceHash.Add((matter1, matter2), force);
-                    }
-
-
-                }
-
-            }
-        }
+        
 
         public void UpdateMatter()
         {
@@ -88,10 +70,10 @@ namespace GravitySim
                 { Collision.ColllisionProcess(matter); }
                 
 
-                UpdateGravity(matter);
+                Gravity.UpdateGravity(matter);
             }
 
-            Gravity.forceHash.Clear();
+            Gravity.forceAppliedHash.Clear();
         }
 
 
@@ -102,7 +84,7 @@ namespace GravitySim
             {
                 for (int y = DrawConsole.cameraPosition.Y; y < DrawConsole.cameraPosition.Y + DrawConsole.drawHeight; y++)
                 {
-                    if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter> items) && items.Any())
+                    if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter>? items) && items.Any())
                     {
                         DrawConsole.DrawCharacter(x - DrawConsole.cameraPosition.X, y - DrawConsole.cameraPosition.Y, (char)(items.Count + '0'));
                     }

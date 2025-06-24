@@ -10,6 +10,7 @@ namespace GravitySim
         public static bool hasStartedSim = false;
         public static bool collisionOn = true;
         public static float collisionRebound = 0.8f;
+        public static float matterMass = 0.05f;
 
         public static void Initialize()
         {

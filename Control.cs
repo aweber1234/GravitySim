@@ -15,6 +15,7 @@ namespace GravitySim
         {
             DrawConsole.WriteTextLine($"Collision Enabled: {GameRoot.collisionOn}", 3, 2);
             DrawConsole.WriteTextLine($"Collision Rebound: {GameRoot.collisionRebound}", 3, 3);
+            DrawConsole.WriteTextLine($"Matter Mass: {GameRoot.matterMass}", 3, 4);
         }
 
 
@@ -22,10 +23,11 @@ namespace GravitySim
         {
             if (keyPressed == ConsoleKey.R)
             {
-                Gravity.forceHash.Clear();
+                Gravity.forceAppliedHash.Clear();
                 GameRoot.entityManager.matterObjects.Clear();
                 GameRoot.entityManager.matterObjectsSpace.Clear();
                 GameRoot.collisionRebound = 0.8f;
+                GameRoot.matterMass = 0.05f;
                 GameRoot.collisionOn = true;
                 DrawConsole.cameraPosition = new VectorInt(0, 0, 0);
                 DrawConsole.drawArray = new string(' ', DrawConsole.drawWidth * DrawConsole.drawHeight).ToCharArray();
@@ -44,8 +46,20 @@ namespace GravitySim
                         GameRoot.rand.Next(DrawConsole.cameraPosition.X, DrawConsole.cameraPosition.X + DrawConsole.drawWidth),
                         GameRoot.rand.Next(DrawConsole.cameraPosition.Y, DrawConsole.cameraPosition.Y + DrawConsole.drawHeight), 0);
 
-                GameRoot.entityManager.Add(new Matter(0.05f, position, new Vector3(0, 0, 0)));
+                GameRoot.entityManager.Add(new Matter(0.05f, position, new Vector3(0, 0, 0), IDtool.GetID()));
 
+            }
+        }
+
+        public static void ModifyMass()
+        {
+            if (keyPressed == ConsoleKey.UpArrow)
+            {
+                GameRoot.matterMass = Math.Min(1, (float)Math.Round(GameRoot.matterMass + 0.01, 2));
+            }
+            if (keyPressed == ConsoleKey.DownArrow)
+            {
+                GameRoot.matterMass = Math.Max(0.01f, (float)Math.Round(GameRoot.matterMass - 0.01, 2));
             }
         }
 
@@ -104,6 +118,7 @@ namespace GravitySim
 
                 ResetGame();
                 ModifyCollision();
+                ModifyMass();
                 ToggleCollision();
                 AddMatter();
                 MoveCamera();
