@@ -91,10 +91,10 @@ namespace GravitySim
 
             foreach (Matter matter in matterObjects)
             {
-                
+
 
                 //updates position
-                Vector3 oldPosition = matter.position;              
+                Vector3 oldPosition = matter.position;
 
                 matter.position += matter.velocity;
 
@@ -120,11 +120,11 @@ namespace GravitySim
         }
 
 
-       
+
         public void DrawMatter()
         {
             foreach (var matter in matterObjects)
-            {                
+            {
                 DrawSpace.DrawCharacter((int)matter.position.X, (int)matter.position.Y, (char)(matterObjectsSpace[new VectorInt(matter.position)].Count + '0'));
             }
         }

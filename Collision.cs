@@ -13,7 +13,7 @@ namespace GravitySim
 
         public static void CollisionMath(Matter matter1, Matter matter2, out Vector3 newVelocity1, out Vector3 newVelocity2)
         {
-            Vector3 collisionPoint = matter2.position - matter1.position;            
+            Vector3 collisionPoint = matter2.position - matter1.position;
             Vector3 normal = Vector3.Normalize(collisionPoint);
             float vRel = Vector3.Dot(matter1.velocity - matter2.velocity, normal);
             float massTotal = matter1.mass + matter2.mass;
@@ -27,7 +27,6 @@ namespace GravitySim
 
         public static void ColllisionProcess(Matter matter)
         {
-
             List<Matter> nearObjects = GameRoot.entityManager.GetNearObjects(matter.position, 1);
             //runs collision calculations
             if (nearObjects.Count > 1)
@@ -43,5 +42,10 @@ namespace GravitySim
                 }
             }
         }
+
+
+
+
+
     }
 }

@@ -48,6 +48,8 @@ namespace GravitySim
                         // Handle input
             if (Console.KeyAvailable)
             {
+                if (!GameRoot.hasStartedSim) { GameRoot.hasStartedSim = true; }
+
                 keyPressed = Console.ReadKey(true).Key;
                 if (keyPressed == ConsoleKey.Escape)
                     Loop._isRunning = false;

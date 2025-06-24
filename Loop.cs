@@ -23,6 +23,8 @@ namespace GravitySim
 
             GameRoot.Initialize();
 
+            
+
             while (_isRunning)
             {
                 double currentTime = _gameTimer.Elapsed.TotalMilliseconds;
