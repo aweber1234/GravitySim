@@ -3,7 +3,7 @@ using System.Text;
 
 namespace GravitySim
 {
-    public static class DrawSpace
+    public static class DrawConsole
     {
         public static int drawWidth = 235;
         public static int drawHeight = 62;
@@ -11,9 +11,19 @@ namespace GravitySim
         public static VectorInt cameraPosition = new VectorInt();
 
 
+        public static void WriteTextLine(string text, int x, int y)
+        {
+            char[] arr = text.ToCharArray();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                DrawCharacter(x + i, y, arr[i]);
+            }
+        }
+
         public static void DrawCharacter(int x, int y, char character)
         {
-            int index = ArrayIndex(x - cameraPosition.X, y - cameraPosition.Y);
+            int index = ArrayIndex(x, y );
             if (index >= 0 && index < drawArray.Length)
             {
                 drawArray[index] = character;

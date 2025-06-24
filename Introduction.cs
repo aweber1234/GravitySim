@@ -15,26 +15,28 @@ namespace GravitySim
 
         public static void SetText()
         {
-            text.Append("           GRAVITY SIM            ");            
+            text.Append("                   GRAVITY SIM                     ");            
             width = text.Length;
-            text.Append("                                  ");
-            text.Append("Press numpad 1 to make new matter.");
-            text.Append("     Use WASD to move camera.     ");
-            text.Append("   Expand window for best view    ");       
+            text.Append("                                                   ");
+            text.Append("            Press 1 to make new matter.            ");
+            text.Append("              Use WASD to move camera.             ");
+            text.Append("            Press C to toggle collision            ");
+            text.Append("Use + - to increase and decrease collision rebound.");
+            text.Append("           Expand window for best view             ");       
         }
 
         public static void WriteText()
         {
             char[] arr = text.ToString().ToCharArray();
             int startY = 10;
-            int startX = (DrawSpace.drawWidth / 2) - (width / 2);
+            int startX = (DrawConsole.drawWidth / 2) - (width / 2);
             int newlineX = startX + width;
             int x = startX;
             int y = startY;
 
             foreach (var item in arr)
             {
-                DrawSpace.DrawCharacter(x, y, item);
+                DrawConsole.DrawCharacter(x, y, item);
                 x++;
                 if (x >= newlineX) { x = startX; y++; }
             }

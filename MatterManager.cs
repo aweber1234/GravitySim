@@ -111,7 +111,9 @@ namespace GravitySim
                     else { matterObjectsSpace.Add(new VectorInt(matter.position), new List<Matter>() { matter }); }
                 }
 
-                Collision.ColllisionProcess(matter);
+                if (GameRoot.collisionOn)
+                { Collision.ColllisionProcess(matter); }
+                
 
                 UpdateGravity(matter);
             }
@@ -124,13 +126,13 @@ namespace GravitySim
 
         public void DrawMatter()
         {
-            for (int x = DrawSpace.cameraPosition.X; x < DrawSpace.cameraPosition.X + DrawSpace.drawWidth; x++)
+            for (int x = DrawConsole.cameraPosition.X; x < DrawConsole.cameraPosition.X + DrawConsole.drawWidth; x++)
             {
-                for (int y = DrawSpace.cameraPosition.Y; y < DrawSpace.cameraPosition.Y + DrawSpace.drawHeight; y++)
+                for (int y = DrawConsole.cameraPosition.Y; y < DrawConsole.cameraPosition.Y + DrawConsole.drawHeight; y++)
                 {
                     if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter> items) && items.Any())
                     {
-                        DrawSpace.DrawCharacter(x, y, (char)(items.Count + '0'));
+                        DrawConsole.DrawCharacter(x - DrawConsole.cameraPosition.X, y - DrawConsole.cameraPosition.Y, (char)(items.Count + '0'));
                     }
                 }
             }
