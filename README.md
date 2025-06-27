@@ -1,13 +1,12 @@
-            text.Append("                            GRAVITY SIM                        ");            
-            width = text.Length;
-            text.Append("                                                               ");
-            text.Append("                    Press 1 to make new matter                 ");
-            text.Append("                      Use WASD to move camera                  ");
-            text.Append("                 Press C to toggle collision                   ");
-            text.Append("       Use + - to increase and decrease collision rebound      ");
-            text.Append("        Use up/down arrows to adjust the mass of matter        ");
-            text.Append("                     Press R to reset the game                 ");
-            text.Append("                    Expand window for best view                ");  
+GRAVITY SIM    
+
+Press 1 to make new matter
+Use WASD to move camera
+Press C to toggle collision
+Use + - to increase and decrease collision rebound
+Use up/down arrows to adjust the mass of matter
+Press R to reset the game
+Expand window for best view
 
 
 
