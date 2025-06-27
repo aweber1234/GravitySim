@@ -42,32 +42,26 @@ namespace GravitySim
             {
                 force = (GameRoot.matterMass * GameRoot.matterMass) / distanceSqr;
             }
-             
+
             return force;
         }
 
 
-        public static void UpdateGravity(Matter matter1)
+        public static void UpdateGravity(Matter matter1, Matter matter2)
         {
-            foreach (Matter matter2 in GameRoot.entityManager.matterObjects)
-            {
-                if (!forceAppliedHash.Contains(new GravityApplied(matter2.id, matter1.id)) && matter1 != matter2)
-                {
-                    float force = Gravity.DetermineGravityForce(matter1, matter2);
-                    if (force > 0)
-                    {
-                        matter1.velocity += GetVectorFromForce(matter1, matter2.position, force);
-                        matter2.velocity += GetVectorFromForce(matter2, matter1.position, force);
-                        forceAppliedHash.Add(new GravityApplied(matter1.id, matter2.id));
-                    }
-                }
+            float force = Gravity.DetermineGravityForce(matter1, matter2);
 
+            if (force > 0)
+            {
+                matter1.velocity += GetVectorFromForce(matter1, matter2.position, force);
+                //matter2.velocity += GetVectorFromForce(matter2, matter1.position, force);
+                //forceAppliedHash.Add(new GravityApplied(matter1.id, matter2.id));
             }
         }
     }
 
 
-   
+
 }
 
 

@@ -1,96 +1,80 @@
+using Microsoft.VisualBasic;
 using System;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Net.Http.Headers;
 using System.Numerics;
 using System.Security.Cryptography;
-using Microsoft.VisualBasic;
+using static GravitySim.Gravity;
 
 namespace GravitySim
 {
     public class MatterManager
     {
         public List<Matter> matterObjects = [];
-        public Dictionary<VectorInt, List<Matter>> matterObjectsSpace = [];      
-       
-        public List<Matter> GetNearObjects(Vector3 position, int radius)
-        {
-            List<Matter> nearObjects = [];
+        public Dictionary<VectorInt, List<Matter>> matterObjectsSpace = [];
+        public int[] inDrawArray = new int[DrawConsole.drawWidth * DrawConsole.drawHeight];
 
-
-
-            for (int x = (int)position.X - radius; x <= (int)position.X + radius; x++)
-            {
-                for (int y = (int)position.Y - radius; y <= (int)position.Y + radius; y++)
-                {
-                    if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter>? contents))
-                    {
-                        nearObjects.AddRange(contents);
-                    }
-                }
-            }
-            return nearObjects;
-        }
 
         public void Add(Matter matter)
         {
             matterObjects.Add(matter);
-
-            if (matterObjectsSpace.ContainsKey(new VectorInt(matter.position)))
-            {
-                matterObjectsSpace[new VectorInt(matter.position)].Add(matter);
-            }
-            else { matterObjectsSpace.Add(new VectorInt(matter.position), new List<Matter> { matter }); }
         }
-
-
-        
 
         public void UpdateMatter()
         {
-            foreach (Matter matter in matterObjects)
-            {
-                //updates position
-                Vector3 oldPosition = matter.position;
+            inDrawArray = new int[DrawConsole.drawWidth * DrawConsole.drawHeight];
+            int minDrawX = DrawConsole.cameraPosition.X;
+            int maxDrawX = minDrawX + DrawConsole.drawWidth;
+            int minDrawY = DrawConsole.cameraPosition.Y;
+            int maxDrawY = minDrawY + DrawConsole.drawHeight;
 
-                matter.position += matter.velocity;
+
+            foreach (Matter matter1 in matterObjects)
+            {
+                matter1.position += matter1.velocity;
 
                 //changes object occupying space if it has moved sufficiently
-                if ((int)matter.position.X != (int)oldPosition.X || (int)matter.position.Y != (int)oldPosition.Y)
+                if ((int)matter1.position.X > minDrawX && (int)matter1.position.X < maxDrawX &&
+                    (int)matter1.position.Y > minDrawY && (int)matter1.position.Y < maxDrawY)
                 {
-                    matterObjectsSpace[new VectorInt(oldPosition)].Remove(matter);
-
-                    if (matterObjectsSpace.TryGetValue(new VectorInt(matter.position), out List<Matter>? contents2))
-                    {
-                        contents2.Add(matter);
-                    }
-                    else { matterObjectsSpace.Add(new VectorInt(matter.position), new List<Matter>() { matter }); }
+                    int i = DrawConsole.ArrayIndex((int)matter1.position.X - minDrawX, (int)matter1.position.Y - minDrawY);
+                    inDrawArray[i]++;
                 }
 
-                if (GameRoot.collisionOn)
-                { Collision.ColllisionProcess(matter); }
-                
-
-                Gravity.UpdateGravity(matter);
             }
 
-            Gravity.forceAppliedHash.Clear();
+
+
+            foreach (Matter matter1 in matterObjects)
+            {
+                foreach (Matter matter2 in matterObjects)
+                {
+                    if (matter1 != matter2)
+                    {
+                        if (GameRoot.collisionOn)
+                        { Collision.ColllisionProcess(matter1, matter2); }
+
+                        UpdateGravity(matter1, matter2);
+                    }
+                }
+            }
         }
 
 
 
         public void DrawMatter()
         {
-            for (int x = DrawConsole.cameraPosition.X; x < DrawConsole.cameraPosition.X + DrawConsole.drawWidth; x++)
+            for (int i = 0; i < inDrawArray.Length; i++)
             {
-                for (int y = DrawConsole.cameraPosition.Y; y < DrawConsole.cameraPosition.Y + DrawConsole.drawHeight; y++)
+                int count = inDrawArray[i];
+                if (count > 0)
                 {
-                    if (matterObjectsSpace.TryGetValue(new VectorInt(x, y, 0), out List<Matter>? items) && items.Any())
-                    {
-                        DrawConsole.DrawCharacter(x - DrawConsole.cameraPosition.X, y - DrawConsole.cameraPosition.Y, (char)(items.Count + '0'));
-                    }
+                    DrawConsole.drawArray[i] = (char)(count + '0');
                 }
-            }
-            
+            }            
+
+
 
         }
 

@@ -24,7 +24,7 @@ namespace GravitySim
         public static void DrawCharacter(int x, int y, char character)
         {
             int index = ArrayIndex(x, y );
-            if (index >= 0 && index < drawArray.Length)
+            //if (index >= 0 && index < drawArray.Length)
             {
                 drawArray[index] = character;
             }

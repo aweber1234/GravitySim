@@ -46,7 +46,7 @@ namespace GravitySim
                         GameRoot.rand.Next(DrawConsole.cameraPosition.X, DrawConsole.cameraPosition.X + DrawConsole.drawWidth),
                         GameRoot.rand.Next(DrawConsole.cameraPosition.Y, DrawConsole.cameraPosition.Y + DrawConsole.drawHeight), 0);
 
-                GameRoot.entityManager.Add(new Matter(0.05f, position, new Vector3(0, 0, 0), IDtool.GetID()));
+                GameRoot.entityManager.Add(new Matter(0.05f, position, new Vector3(0, 0, 0)));
 
             }
         }

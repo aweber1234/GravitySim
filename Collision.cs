@@ -22,21 +22,13 @@ namespace GravitySim
 
         }
 
-        public static void ColllisionProcess(Matter matter)
+        public static void ColllisionProcess(Matter matter, Matter matter2)
         {
-            List<Matter> nearObjects = GameRoot.entityManager.GetNearObjects(matter.position, 1);
-            //runs collision calculations
-            if (nearObjects.Count > 1)
-            {                    //updates collision for entities colliding
-                foreach (Matter collidedMatter in nearObjects)
-                {
-                    if (matter != collidedMatter && Vector3.DistanceSquared(matter.position, collidedMatter.position) < 1)
-                    {
-                        Collision.CollisionMath(matter, collidedMatter, out Vector3 newVelocity1, out Vector3 newVelocity2);
-                        matter.velocity = newVelocity1;
-                        collidedMatter.velocity = newVelocity2;
-                    }
-                }
+            if (Vector3.DistanceSquared(matter.position, matter2.position) < 1)
+            {
+                Collision.CollisionMath(matter, matter2, out Vector3 newVelocity1, out Vector3 newVelocity2);
+                matter.velocity = newVelocity1;
+                matter2.velocity = newVelocity2;
             }
         }
 
